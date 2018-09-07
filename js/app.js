@@ -72,15 +72,17 @@ console.log(data);
 myApp.controller('loginController', ['$scope', '$http', '$location','$window','$rootScope','$route','fileUpload', function($scope,$http,$location,$window,$rootScope,$route,fileUpload){
 
  $scope.login = function(){
+console.log($scope.username);
+console.log($scope.password);
 
   $http({
-    url: 'https://ipec.herokuapp.com/authenticate',
+    url: 'https://ipec.herokuapp.com/users/authenticate',
     method: "POST",
-    data: { 'username' : $scope.email, 'password':$scope.password}
+    data: { "username" : $scope.username, 'password':$scope.password}
     //data:{'data': data}
 })
 .then(function(response) {
-console.log(response);
+console.log(response.status);
       
 
  });
