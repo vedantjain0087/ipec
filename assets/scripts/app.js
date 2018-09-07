@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp',['ngRoute']);
+var myApp = angular.module('myApp',['ngRoute','btford.socket-io']);
 
 angular
 .module('myApp').service('fileUpload', function ($http,$log) {
@@ -56,7 +56,13 @@ myApp.config(function ($routeProvider) {
 
 myApp.controller('homeController', ['$scope', '$http', '$location','$window','$rootScope','$route','fileUpload', function($scope,$http,$location,$window,$rootScope,$route,fileUpload){
 
-var socket = io.connect("http://localhost:3000");      
+var socket = io.connect("http://localhost:3000");
+socket.emit("send_message","Hello world");
+
+socket.on("new_message",function(data){
+console.log(data);
+alert(data);
+});
 
 }]);
 

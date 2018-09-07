@@ -1,0 +1,22 @@
+{
+  "name": "ipec_front",
+  "homepage": "https://github.com/vedantjain0087/ipec",
+  "authors": [
+    "Vedant <mainvedant.vns123@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "socket.io-client": "sio-client#^1.4.8",
+    "angular-socket-io": "^0.7.0",
+    "angular-local-storage": "^0.7.1"
+  }
+}
