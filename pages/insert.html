@@ -1,0 +1,14 @@
+<div ng-include="'pages/common/nav.html'"></div>
+
+<h2>Write A Complain</h2>
+<br>
+
+<div class="row" style="padding:10px;">
+  <div class="col-md-12" style="padding:10px;">
+    <input class="form-control"style="padding:10px;" placeholder="Category" type="text" ng-model="category"><br>
+    <textarea class="form-control" placeholder="Enter your issue" ng-model="msg"></textarea>
+    <br>
+    <br>
+    <button type="button" class="btn btn-success" ng-click="insert_cmp()">Submit</button>
+  </div>
+</div>

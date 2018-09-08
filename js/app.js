@@ -60,6 +60,9 @@ myApp.config(function ($routeProvider) {
 .when('/chat', {
   templateUrl: 'pages/home.html',
   controller: 'chatController'
+}).when('/insert', {
+  templateUrl: 'pages/insert.html',
+  controller: 'insertController'
 })
    
 });
@@ -70,6 +73,10 @@ myApp.controller('homeController', ['$scope', '$http', '$location','$window','$r
   
 }]);
 myApp.controller('chatController', ['$scope', '$http', '$location','$window','$rootScope','$route','fileUpload', function($scope,$http,$location,$window,$rootScope,$route,fileUpload){
+
+$scope.send = $window.sessionStorage.sender;
+$scope.rec = $window.sessionStorage.rec;
+
 
   var socket = io.connect("https://ipec.herokuapp.com");
 
@@ -143,7 +150,7 @@ socket.on("new_message",function(data){
 
 console.log(data);
 if(data.username != $window.sessionStorage.username){
-$('<li class="sent"><img src="http://emilcarlsson.se/assets/mikeross.png" alt="" /><p>' + data.msg + '</p></li>').appendTo($('.messages ul'));
+$('<li class="sent"><img src="http://emilcarlsson.se/assets/mikeross.png" alt="" /><p>' + data.msg.msg + '</p></li>').appendTo($('.messages ul'));
 
 	// $('.contact.active .preview').html('<span>You: </span>' + message);
 	$(".messages").animate({ scrollTop: $(document).height() }, "fast");
@@ -151,6 +158,28 @@ $('<li class="sent"><img src="http://emilcarlsson.se/assets/mikeross.png" alt=""
 });
    
    }]);
+   myApp.controller('insertController', ['$scope', '$http', '$location','$window','$rootScope','$route','fileUpload', function($scope,$http,$location,$window,$rootScope,$route,fileUpload){
+
+    $scope.insert_cmp = function(){
+
+   
+     $http({
+       url: 'https://ipec.herokuapp.com/complains/insert',
+       method: "POST",
+       data: { "msg" : $scope.msg, 'category':$scope.category,'sender':$window.sessionStorage.username,'receiver':'amrit',"status":"Not seen"}
+       //data:{'data': data}
+   })
+   .then(function(response) {
+    swal("Complain feeded successfully", "", "success", {
+      button: "Ok",
+    });
+         
+   
+    });
+   
+   }
+     
+     }]);
 
 myApp.controller('loginController', ['$scope', '$http', '$location','$window','$rootScope','$route','fileUpload', function($scope,$http,$location,$window,$rootScope,$route,fileUpload){
 
@@ -167,7 +196,7 @@ console.log($scope.password);
 .then(function(response) {
 if(response.status == 200){
   $window.sessionStorage.setItem("username",$scope.username );
-  $window.location.href = '#';
+  $window.location.href = '#dashboard';
 }
       
 
@@ -179,7 +208,12 @@ if(response.status == 200){
   
   myApp.controller('dashController', ['$scope', '$http', '$location','$window','$rootScope','$route','fileUpload', function($scope,$http,$location,$window,$rootScope,$route,fileUpload){
 
-$scope.start_chat = function(){
+$scope.start_chat = function(sender,rec){
+console.log(sender);
+console.log(rec);
+  $window.sessionStorage.setItem("sender",sender);
+  $window.sessionStorage.setItem("rec",rec );
+
   $window.location.href = '#chat';
 }
 
