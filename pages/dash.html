@@ -1,20 +1,20 @@
 <div ng-include="'pages/common/nav.html'"></div>
 
+<h2>Complaints</h2>
+<br>
 
-    <!-- Section: inner-header -->
-    <section class="inner-header divider parallax layer-overlay overlay-dark-5" data-bg-img="images/bg/bg1.jpg">
-      <div class="container pt-70 pb-50">
-        <!-- Section Content -->
-        <div class="section-content">
-          <div class="row"> 
-            <div class="col-md-12">
-              <h4 class="title text-white">Anxiety Counselling</h4>
-              <ul class="breadcrumb white">
-                <li><a class="text-white" href="index-mp-layout1.html">Home</a></li>
-                <li class="active">Service Details</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-</section>
+<div class="row">
+  <div class="col-md-12" style="font-size:20px" ng-repeat="x in complaints">
+    <div class="well topic" data-toggle="collapse" data-target="#{{$index}}">{{x.category | uppercase}}</div>
+    <div id="{{$index}}" class="well collapse">
+    <b style="font-weight:bold">Sender</b>: {{x.sender}} <br>
+    <b style="font-weight:bold">Receiver</b>: {{x.receiver}} <br>
+    <b style="font-weight:bold">Status</b>: {{x.status}} <br>
+    <b style="font-weight:bold">Message</b>: <br> {{x.msg}} <br>
+    <b style="font-weight:bold">Sender</b>: {{x.sender}} <br>
+    <button type="button" class="btn btn-success" ng-click="change_status(x.category)">Mark as seen</button>
+    <button type="button" class="btn btn-primary" ng-click="start_chat()">Send Message</button>
+
+    </div>
+  </div>
+</div>

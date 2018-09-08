@@ -57,6 +57,10 @@ myApp.config(function ($routeProvider) {
     templateUrl: 'pages/dash.html',
     controller: 'dashController'
 })
+.when('/chat', {
+  templateUrl: 'pages/home.html',
+  controller: 'chatController'
+})
    
 });
 
@@ -64,35 +68,9 @@ myApp.controller('homeController', ['$scope', '$http', '$location','$window','$r
   
   $window.location.href = 'https://vedantjain0087.github.io/ipec_temp/'; 
   
-  // particlesJS.load('particles-js', 'assets/particles.json', function() {
-  //   console.log('callback - particles.js config loaded');
-  // });
+}]);
+myApp.controller('chatController', ['$scope', '$http', '$location','$window','$rootScope','$route','fileUpload', function($scope,$http,$location,$window,$rootScope,$route,fileUpload){
 
-
-  // var typed = new Typed('#typed', {
-  //   stringsElement: '#typed-strings',
-	// loop: true,
-	//  typeSpeed: 30,
-	//  backDelay: 900,
-	//    backSpeed: 30,
-  // });
-
-  // $(function() {
-  //   // Smooth Scrolling
-  //   $('a[href*="#"]:not([href="#"])').click(function() {
-  //     if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
-  //       var target = $(this.hash);
-  //       target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
-  //       if (target.length) {
-  //         $('html, body').animate({
-  //           scrollTop: target.offset().top
-  //         }, 1000);
-  //         return false;
-  //       }
-  //     }
-  //   });
-  // });
-  
   var socket = io.connect("https://ipec.herokuapp.com");
 
 
@@ -171,8 +149,8 @@ $('<li class="sent"><img src="http://emilcarlsson.se/assets/mikeross.png" alt=""
 	$(".messages").animate({ scrollTop: $(document).height() }, "fast");
 }
 });
-
-}]);
+   
+   }]);
 
 myApp.controller('loginController', ['$scope', '$http', '$location','$window','$rootScope','$route','fileUpload', function($scope,$http,$location,$window,$rootScope,$route,fileUpload){
 
@@ -201,6 +179,41 @@ if(response.status == 200){
   
   myApp.controller('dashController', ['$scope', '$http', '$location','$window','$rootScope','$route','fileUpload', function($scope,$http,$location,$window,$rootScope,$route,fileUpload){
 
- 
+$scope.start_chat = function(){
+  $window.location.href = '#chat';
+}
+
+    $http.get('https://ipec.herokuapp.com/complains')
+    .success(function(result){
+      $scope.complaints = result;
+      console.log(result);
+    })
+    .error(function(data,status){
+      console.log(data);
+    });
+
+ $scope.change_status = function(id){
+   console.log(id);
+  $http.put('https://ipec.herokuapp.com/complains/'+id)
+  .success(function(result){
+    swal("Status Changed Successfully", "", "success", {
+      button: "Ok",
+    });
+    $http.get('https://ipec.herokuapp.com/complains')
+    .success(function(result){
+      $scope.complaints = result;
+      console.log(result);
+    })
+    .error(function(data,status){
+      console.log(data);
+    });
+
+
+  })
+  .error(function(data,status){
+    console.log(data);
+  });
+
+ }
      
  }]);
